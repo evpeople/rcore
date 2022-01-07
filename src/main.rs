@@ -6,27 +6,22 @@ mod console;
 mod lang_items;
 mod sbi;
 use core::arch::global_asm;
-use log::{error,LevelFilter,trace};
-
-// use console::init;
-// use console::SimpleLogger;
-// use log::info;
+use log::{error, info, trace, warn, LevelFilter};
 
 global_asm!(include_str!("entry.asm"));
 
 #[no_mangle]
 pub fn rust_main() -> ! {
     clear_bss();
+
+    console::init();
     log::set_max_level(LevelFilter::Error);
+    error!("sad");
+    warn!("21432");
     println!("hello rcorefdsfds");
-    // console::init();
-    trace!("ddsadsaasdasdas");
-    // console::SimpleLogger.log(Record{});
-    // with_color!("w")
-    // print_in_color(format_args!("dsdsafadgdf"),31);
-    // init();    
-    // info!("dsasdsa");
-    // SimpleLogger;
+
+    info!("123345ddsadsaasdasdas");
+
     panic!("Shutdown machine!");
     loop {}
 }
@@ -38,6 +33,3 @@ fn clear_bss() {
     //first find sbss and ebss ,then zero them,it translate to uszie
     (sbss as usize..ebss as usize).for_each(|a| unsafe { (a as *mut u8).write_volatile(0) });
 }
-// fn main() {
-// //    println!("Hello, world!");
-// }
